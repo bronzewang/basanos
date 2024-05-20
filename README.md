@@ -1,0 +1,2 @@
+# basanos
+embedded auto test 
