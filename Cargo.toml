@@ -2,8 +2,8 @@
 name = "basanos"
 version = "0.0.0"
 edition = "2021"
-authors = ['Cuprum Wangzuo <cuprumwz@foxmail.com>]
+authors = ['Cuprum Wangzuo <cuprumwz@foxmail.com>']
 description = 'Auto test for tribers'
-license = "MIT OR Apache-2.0"
+license = 'MIT OR Apache-2.0'
 
 [dependencies]
