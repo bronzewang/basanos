@@ -1,0 +1,5 @@
+* Inbox
+** snooper----依赖spiders的bailor提供python接口
+** grinder----给robotframework提供library
+** deliver----给butcher发送触发信息
+** butcher----接收自动化测试任务，查询可用的snooper,启动，运行，收集运行结果日志
