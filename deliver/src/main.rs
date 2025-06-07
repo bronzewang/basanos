@@ -1,21 +1,26 @@
-#[derive(Debug, clap::Parser)]
+use std::path::PathBuf;
+use anyhow::Result;
+// use clap::{Args, Parser, Subcommand, ValueEnum};
+use clap::{Parser, Subcommand};
+
+#[derive(Debug, Parser)]
 #[command(about = "Deliver a image to target")]
 pub struct Cli {
     #[clap(subcommand)]
-    subcommand: Subcommand,
+    command: Command,
 }
 
-#[derive(Debug, clap::Subcommand)]
-pub enum Subcommand {
+#[derive(Debug, Subcommand)]
+pub enum Command {
     /// Fake a model
     #[command(arg_required_else_help = true)]
     Fake {
         #[clap(flatten)]
-        pub(crate) image_options: ImageOptions,
+        image_options: ImageOptions,
     },
 }
 
-#[derive(Debug, clap::Parser)]
+#[derive(Debug, Parser)]
 pub struct ImageOptions {
     /// The path to the ELF file to flash and run.
     #[clap(
@@ -29,9 +34,11 @@ pub struct ImageOptions {
 async fn main() -> Result<()> {
     let args = Cli::parse();
 
-    match args.subcommand {
-        Subcommand::Fake { image_options } => {
-            println!("Fake {image_options}");
+    match args.command {
+        Command::Fake { image_options } => {
+            println!("Fake {image_options:?}");
         }
     }
+
+    Ok(())
 }
