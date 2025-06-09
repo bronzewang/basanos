@@ -1,8 +1,8 @@
 [package]
-name = "basanos-deliver"
-version = "0.1.0"
+name = "basanos-catcher"
+version = "0.0.1"
 edition = "2024"
-description = "deliver a image to the butcher for basanos"
+description = "catcher a image to the butcher for basanos"
 
 [dependencies]
 clap = { version = "4", features = ["derive", "env"] }

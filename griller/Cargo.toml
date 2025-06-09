@@ -1,6 +1,6 @@
 [package]
-name = "basanos-butcher"
-version = "0.1.0"
+name = "basanos-griller"
+version = "0.0.1"
 edition = "2021"
 
 [dependencies]

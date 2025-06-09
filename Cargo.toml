@@ -1,3 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+  "catcher",
+  # "griller",
+  # "snooper",
+]
+
 [package]
 name = "basanos"
 version = "0.0.0"

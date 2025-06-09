@@ -4,7 +4,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 
 #[derive(Debug, Parser)]
-#[command(about = "Deliver a image to target")]
+#[command(about = "Catcher a image to target")]
 pub struct Cli {
     #[clap(subcommand)]
     command: Command,
