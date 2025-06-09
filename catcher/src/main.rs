@@ -12,7 +12,14 @@ pub struct Cli {
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
-    /// Fake a model
+    /// Mock a model----模拟出一个终端及外部环境(虚拟)
+    #[command(arg_required_else_help = true)]
+    Mock {
+        #[clap(flatten)]
+        image_options: ImageOptions,
+    },
+
+    /// Fake a model----伪造出一个终端及外部环境(实物)
     #[command(arg_required_else_help = true)]
     Fake {
         #[clap(flatten)]
@@ -35,6 +42,9 @@ async fn main() -> Result<()> {
     let args = Cli::parse();
 
     match args.command {
+        Command::Mock { image_options } => {
+            println!("Mock {image_options:?}");
+        }
         Command::Fake { image_options } => {
             println!("Fake {image_options:?}");
         }
