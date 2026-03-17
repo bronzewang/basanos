@@ -5,6 +5,8 @@ pub(crate) struct BuildArgs {}
 
 impl Executable for BuildArgs {
     fn execute(self) -> color_eyre::Result<()> {
-        todo!()
+        let recipe = crate::recipe::load("recipe/demo.ron")?;
+        tracing::info!("load recipe {:?}", recipe);
+        Ok(())
     }
 }
