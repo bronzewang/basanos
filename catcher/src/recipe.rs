@@ -1,9 +1,9 @@
 #![allow(dead_code)]
 
-use std::{fs::File, path::Path};
+use std::path::Path;
 
 use color_eyre::eyre::Context;
-use ron::de::from_reader;
+use ron::from_str;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -50,7 +50,9 @@ pub(crate) struct Target {
     path: String,
 }
 
-pub(crate) fn load<P: AsRef<Path>>(path: P) -> color_eyre::Result<Recipe> {
-    let f = File::open(path).context("Failed recipe open")?;
-    from_reader(f).context("Failed read recipe")
+pub(crate) async fn load<P: AsRef<Path>>(path: P) -> color_eyre::Result<Recipe> {
+    let contents = tokio::fs::read_to_string(path)
+        .await
+        .context("Failed recipe open")?;
+    from_str(&contents).context("Failed read recipe")
 }

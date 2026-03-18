@@ -18,15 +18,15 @@ pub(crate) enum Command {
 }
 
 pub(crate) trait Executable {
-    fn execute(self) -> color_eyre::Result<()>;
+    async fn execute(self) -> color_eyre::Result<()>;
 }
 
 pub(crate) async fn execute(cli: Cli) -> color_eyre::Result<()> {
     match cli.command {
-        Command::Build(args) => args.execute(),
-        Command::Store(args) => args.execute(),
-        Command::Touch(args) => args.execute(),
-        Command::Trace(args) => args.execute(),
+        Command::Build(args) => args.execute().await,
+        Command::Store(args) => args.execute().await,
+        Command::Touch(args) => args.execute().await,
+        Command::Trace(args) => args.execute().await,
     }
 }
 

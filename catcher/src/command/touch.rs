@@ -4,7 +4,7 @@ use crate::command::Executable;
 pub(crate) struct TouchArgs {}
 
 impl Executable for TouchArgs {
-    fn execute(self) -> color_eyre::Result<()> {
+    async fn execute(self) -> color_eyre::Result<()> {
         todo!()
     }
 }
