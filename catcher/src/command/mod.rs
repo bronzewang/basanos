@@ -1,3 +1,7 @@
+use std::path::PathBuf;
+
+use eyre::Context;
+
 mod build;
 mod store;
 mod touch;
@@ -5,6 +9,7 @@ mod trace;
 
 #[derive(clap::Parser)]
 pub(crate) struct Cli {
+    config: Option<PathBuf>,
     #[clap(subcommand)]
     command: Command,
 }
@@ -22,6 +27,11 @@ pub(crate) trait Executable {
 }
 
 pub(crate) async fn execute(cli: Cli) -> color_eyre::Result<()> {
+    let config = crate::config::Config::load(cli.config)
+        .await
+        .context("Failed config load")?;
+    tracing::error!("config: {:?}", config);
+
     match cli.command {
         Command::Build(args) => args.execute().await,
         Command::Store(args) => args.execute().await,
