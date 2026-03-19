@@ -5,12 +5,12 @@ use std::path::PathBuf;
 use eyre::Context;
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Default, Deserialize)]
 pub(crate) struct Config {
     recipe: RecipeConfig,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Default, Deserialize)]
 pub(crate) struct RecipeConfig {
     path: PathBuf,
 }
@@ -18,6 +18,7 @@ pub(crate) struct RecipeConfig {
 impl Config {
     pub(crate) async fn load(path: Option<PathBuf>) -> color_eyre::Result<Self> {
         let mut builder = config::Config::builder();
+
         if let Some(path) = path {
             builder = builder.add_source(config::File::from(path));
         }
@@ -35,11 +36,13 @@ impl Config {
                     .collect::<Vec<_>>(),
             );
         }
+
         builder
             .build()
             .context("Faild build config")?
             .try_deserialize()
             .context("Failed deserialize config")
+            .map_or_else(|_e| Ok(Self::default()), |t| Ok(t))
     }
 
     pub(crate) fn get_system_config_glob() -> Option<String> {
