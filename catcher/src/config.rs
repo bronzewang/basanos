@@ -35,8 +35,9 @@ impl Config {
                     .collect::<Vec<_>>(),
             );
         }
-        let config = builder.build().context("Faild build config")?;
-        config
+        builder
+            .build()
+            .context("Faild build config")?
             .try_deserialize()
             .context("Failed deserialize config")
     }

@@ -2,6 +2,8 @@ use std::path::PathBuf;
 
 use eyre::Context;
 
+use crate::config::Config;
+
 mod build;
 mod store;
 mod touch;
@@ -23,20 +25,20 @@ pub(crate) enum Command {
 }
 
 pub(crate) trait Executable {
-    async fn execute(self) -> color_eyre::Result<()>;
+    async fn execute(self, config: &Config) -> color_eyre::Result<()>;
 }
 
 pub(crate) async fn execute(cli: Cli) -> color_eyre::Result<()> {
     let config = crate::config::Config::load(cli.config)
         .await
         .context("Failed config load")?;
-    tracing::error!("config: {:?}", config);
+    tracing::error!("{:#?}", config);
 
     match cli.command {
-        Command::Build(args) => args.execute().await,
-        Command::Store(args) => args.execute().await,
-        Command::Touch(args) => args.execute().await,
-        Command::Trace(args) => args.execute().await,
+        Command::Build(args) => args.execute(&config).await,
+        Command::Store(args) => args.execute(&config).await,
+        Command::Touch(args) => args.execute(&config).await,
+        Command::Trace(args) => args.execute(&config).await,
     }
 }
 

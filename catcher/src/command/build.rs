@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::command::Executable;
+use crate::{command::Executable, config::Config};
 
 #[derive(clap::Args)]
 pub(crate) struct BuildArgs {
@@ -8,9 +8,9 @@ pub(crate) struct BuildArgs {
 }
 
 impl Executable for BuildArgs {
-    async fn execute(self) -> color_eyre::Result<()> {
+    async fn execute(self, _config: &Config) -> color_eyre::Result<()> {
         let recipe = crate::recipe::load(self.path).await?;
-        tracing::info!("load recipe {:?}", recipe);
+        tracing::info!("load recipe {:#?}", recipe);
         Ok(())
     }
 }

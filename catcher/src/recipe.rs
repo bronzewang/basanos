@@ -20,7 +20,7 @@ pub(crate) struct Node {
     pub(crate) name: Option<String>,
     pub(crate) note: Option<String>,
     pub(crate) source: Source,
-    pub(crate) casting: Casting,
+    pub(crate) create: Create,
     pub(crate) output: Output,
     pub(crate) target: Target,
 }
@@ -36,7 +36,7 @@ pub(crate) enum SourceRepo {
 }
 
 #[derive(Debug, Deserialize)]
-pub(crate) struct Casting {
+pub(crate) struct Create {
     cmd: String,
 }
 
