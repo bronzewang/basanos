@@ -31,8 +31,15 @@ async fn build_execute(ticket: &mut Ticket, _config: &Config, recipe: &Recipe) -
         id: ticket.id.clone(),
         path: PathBuf::from_str("").unwrap(),
     };
+
+    let mut tasks = Vec::new();
     for node in recipe.nodes.iter() {
-        create.clone().build_node(node).await.unwrap();
+        let task = create.clone().build(node).await;
+        tasks.push(task);
     }
+    for task in tasks {
+        task.await?;
+    }
+
     Ok(())
 }
