@@ -28,6 +28,7 @@ color-eyre = "0.6"
 
 dirs = "6"
 glob = "0.3"
+uuid = { version = "1", features = ["v4", "v7", "serde"] }
 
 # [lib]
 # name = "basanos_catcher"

@@ -6,9 +6,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Ticket {
-    level: Level,
-    store: Store,
-    recipe: PathBuf,
+    pub(crate) id: TicketId,
+    pub(crate) level: Level,
+    pub(crate) store: Store,
+    pub(crate) recipe: PathBuf,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -87,5 +88,23 @@ impl Ticket {
 
     pub(crate) async fn save(&self) -> color_eyre::Result<()> {
         Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub(crate) struct TicketId(uuid::Uuid);
+
+impl Default for TicketId {
+    fn default() -> Self {
+        Self::generate()
+    }
+}
+
+impl TicketId {
+    fn generate() -> Self {
+        Self(uuid::Uuid::now_v7())
+    }
+    fn uuid(&self) -> uuid::Uuid {
+        self.0
     }
 }

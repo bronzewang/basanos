@@ -1,8 +1,8 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, str::FromStr};
 
 use eyre::Context;
 
-use crate::{command::Executable, config::Config, recipe::Recipe, ticket::Ticket};
+use crate::{command::Executable, config::Config, create::Create, recipe::Recipe, ticket::Ticket};
 
 #[derive(clap::Args)]
 pub(crate) struct BuildArgs {
@@ -12,7 +12,7 @@ pub(crate) struct BuildArgs {
 }
 
 impl Executable for BuildArgs {
-    async fn execute(self, config: &Config) -> color_eyre::Result<()> {
+    async fn execute(self, config: &Config) -> eyre::Result<()> {
         let recipe = crate::recipe::load(&self.recipe)
             .await
             .context("Failed load recipe")?;
@@ -26,10 +26,13 @@ impl Executable for BuildArgs {
     }
 }
 
-async fn build_execute(
-    _ticket: &mut Ticket,
-    _config: &Config,
-    _recipe: &Recipe,
-) -> color_eyre::Result<()> {
+async fn build_execute(ticket: &mut Ticket, _config: &Config, recipe: &Recipe) -> eyre::Result<()> {
+    let create = Create {
+        id: ticket.id.clone(),
+        path: PathBuf::from_str("").unwrap(),
+    };
+    for node in recipe.nodes.iter() {
+        create.clone().build_node(node).await.unwrap();
+    }
     Ok(())
 }
