@@ -5,6 +5,7 @@ use eyre::Context;
 use crate::config::Config;
 
 mod build;
+mod gitie;
 mod store;
 mod touch;
 mod trace;
@@ -18,6 +19,7 @@ pub(crate) struct Cli {
 
 #[derive(clap::Subcommand)]
 pub(crate) enum Command {
+    Gitie(gitie::GitieArgs),
     Build(build::BuildArgs),
     Store(store::StoreArgs),
     Touch(touch::TouchArgs),
@@ -35,6 +37,7 @@ pub(crate) async fn execute(cli: Cli) -> color_eyre::Result<()> {
     tracing::error!("{:#?}", config);
 
     match cli.command {
+        Command::Gitie(args) => args.execute(&config).await,
         Command::Build(args) => args.execute(&config).await,
         Command::Store(args) => args.execute(&config).await,
         Command::Touch(args) => args.execute(&config).await,
