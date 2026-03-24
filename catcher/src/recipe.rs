@@ -37,17 +37,17 @@ pub(crate) enum SourceRepo {
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct Create {
-    cmd: String,
+    pub(crate) cmd: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct Output {
-    path: String,
+    pub(crate) path: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct Target {
-    path: String,
+    pub(crate) path: String,
 }
 
 pub(crate) async fn load<P: AsRef<Path>>(path: P) -> color_eyre::Result<Recipe> {

@@ -3,7 +3,7 @@ use console_subscriber::ConsoleLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
-async fn main() -> color_eyre::Result<()> {
+async fn main() -> eyre::Result<()> {
     color_eyre::config::HookBuilder::new()
         .display_location_section(true)
         .display_env_section(true)
