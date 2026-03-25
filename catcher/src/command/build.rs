@@ -1,4 +1,4 @@
-use std::{path::PathBuf, str::FromStr};
+use std::path::PathBuf;
 
 use eyre::Context;
 
@@ -18,19 +18,17 @@ impl Executable for BuildArgs {
             .context("Failed load recipe")?;
         tracing::info!("{:#?}", recipe);
         let mut ticket = Ticket::init(self.recipe, self.level, self.store).await;
+        ticket.path = PathBuf::from("./");
         tracing::info!("{ticket:#?}");
-        build_execute(&mut ticket, &config, &recipe)
+        build_execute(&config, &mut ticket, &recipe)
             .await
             .context("Faile build execute")?;
         ticket.save().await.context("Faile ticket save")
     }
 }
 
-async fn build_execute(ticket: &mut Ticket, _config: &Config, recipe: &Recipe) -> eyre::Result<()> {
-    let create = Create {
-        id: ticket.id.clone(),
-        path: PathBuf::from_str("").unwrap(),
-    };
+async fn build_execute(config: &Config, ticket: &mut Ticket, recipe: &Recipe) -> eyre::Result<()> {
+    let create = Create { config, ticket };
 
     let mut tasks = Vec::new();
     for node in recipe.nodes.iter() {

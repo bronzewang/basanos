@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Ticket {
     pub(crate) id: TicketId,
+    pub(crate) path: PathBuf,
     pub(crate) level: Level,
     pub(crate) store: Store,
     pub(crate) recipe: PathBuf,

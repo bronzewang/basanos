@@ -14,9 +14,9 @@ serde_yaml = "0.9"
 clap = { version = "4", features = ["derive", "env"] }
 config = "0.15"
 
-tokio = { version = "1", features = ["full"] }
-tokio-util = { version = "0.7", features = ["codec"] }
-tokio-stream = "0.1"
+tokio = { version = "1", features = ["full", "tracing"] }
+tokio-util = { version = "0.7", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["full"] }
 
 tracing = "0.1"
 tracing-subscriber = "0.3"
